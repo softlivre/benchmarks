@@ -1,6 +1,6 @@
 <?php
 
-// script 1 that seems to use a single core
+// script 2 trying to use multiple threads
 
 ini_set('max_execution_time', '1000');
 ini_set('display_errors', 1);
@@ -10,14 +10,25 @@ error_reporting(E_ALL);
 $start = microtime(true);
 register_shutdown_function('shutdown');
 
-for($i = 0, $j = 0; $i < pow(2,30); $i++){    
-    $j += $i;    
+include_once("worker.class.php");
+$worker = new Worker();
+
+$final = 0;
+
+for ($i = 0; $i < 10000; $i++){    
+    $final += $worker->run();  
 }
 
-echo "count reached {$j}";
+echo "<hr>final: $final<br>";
 
-// dell poweredge t110-II: (3.1 GHz/core x4)   reached in 7.717 seconds on php8.1-fpm
-// dell poweredge t420:    (2.4 GHz/core x8)   reached in 11.02 seconds on php8.1-fpm
+/**
+ * using jmeter to test this script
+ * test plans saved to this directory
+ * using 50 threads, 10 loops each
+ * dell poweredge t110-II:  (3.1 GHz/core x4)     finished in 3'40" on php8.1-fpm
+ *  dell poweredge t420:     (2.4 GHz/core x8)     finished in 3'59" on php8.1-fpm
+ *
+*/
 
 function shutdown(){
     $a = error_get_last();
