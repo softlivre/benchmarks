@@ -1,3 +1,5 @@
-# simple scripts to test php and database performance across different servers by henrique / softlivre.com.br 
+# SOFTLIVRE benchmarks
 
-# not to be on public view, what apllies to this whole project
+Simple scripts to test php and database performance across different servers by henrique / softlivre.com.br 
+
+* not to be on public view, what apllies to this whole project
